@@ -295,7 +295,7 @@ public class mapper {
 		});
 		frame.getContentPane().add(btnSettings);
 
-		JButton btnPointList = new JButton("Points");
+		JButton btnPointList = new JButton("Points (" + Pixel.getPixelCounter() + ")");
 		springLayout.putConstraint(SpringLayout.NORTH, btnPointList, -37, SpringLayout.SOUTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, btnPointList, -106, SpringLayout.EAST, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, btnPointList, -5, SpringLayout.SOUTH, frame.getContentPane());
@@ -452,6 +452,8 @@ public class mapper {
 				textHexClr.setText(hex);  
 			}
 		});
+		
+		
 
 	}
 
