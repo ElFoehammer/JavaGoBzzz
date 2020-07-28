@@ -2,45 +2,7 @@ package Mapper;
 
 public class Pixel {
 
-	public static int getGroupCounter() {
-		return GroupCounter;
-	}
-
-	public int getPixelNumber() {
-		return pixelNumber;
-	}
-
-	public String getNickName() {
-		return nickName;
-	}
-
-	public int getGrp() {
-		return grp;
-	}
-
-	public int getR() {
-		return r;
-	}
-
-	public int getG() {
-		return g;
-	}
-
-	public int getB() {
-		return b;
-	}
-
-	public int getT() {
-		return t;
-	}
-
-	public int getX() {
-		return x;
-	}
-
-	public int getY() {
-		return y;
-	}
+	
 
 	private static int PixelCounter = 0;
 	private static int GroupCounter = 0;
@@ -131,5 +93,45 @@ public class Pixel {
 
 	public static int getPixelCounter() {
 		return PixelCounter;
+	}
+	
+	public static int getGroupCounter() {
+		return GroupCounter;
+	}
+
+	public int getPixelNumber() {
+		return pixelNumber;
+	}
+
+	public String getNickName() {
+		return nickName;
+	}
+
+	public int getGrp() {
+		return grp;
+	}
+
+	public int getR() {
+		return r;
+	}
+
+	public int getG() {
+		return g;
+	}
+
+	public int getB() {
+		return b;
+	}
+
+	public int getT() {
+		return t;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
 	}
 }
