@@ -19,6 +19,9 @@ import javax.swing.ImageIcon;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -56,7 +59,10 @@ public class mapper {
 	private int bootcount = 0;
 	private Image original;
 	private BufferedImage bufferedOriginal;
-	private boolean updateCoords = true;
+	private boolean updateCoords = false;
+	private boolean imageUploaded = false;
+	private boolean inPanel = false;
+	private boolean altSelect = false;
 	private JLabel lblXcoord;
 	private JLabel lblYcoord;
 	private JSpinner spin_Red;
@@ -73,8 +79,9 @@ public class mapper {
 	private ArrayList<Pixel> pixels = new ArrayList<>();
 	private boolean getColor = false;
 	private JButton btDropplet;
+	private JButton btnPointList;
 	private JTextField textHexClr;
-	private boolean goodHex;
+	private JPanel panel;
 
 
 	/**
@@ -123,6 +130,7 @@ public class mapper {
 		SpringLayout springLayout = new SpringLayout();
 		frame.getContentPane().setLayout(springLayout);
 		frame.setMinimumSize(new Dimension(563, (int) (563 * (screenHeight * 1.0 / screenWidth))));
+		frame.setFocusable(true);
 		frame.addComponentListener(new java.awt.event.ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent e) {
@@ -133,7 +141,7 @@ public class mapper {
 					frame.setSize(frame.getWidth(), (int) (frame.getWidth() * (screenHeight * 1.0 / screenWidth)));
 				}
 			}
-		});
+		});	
 
 		lbimage = new JLabel("");
 		lbimage.setVerticalAlignment(SwingConstants.TOP);
@@ -157,12 +165,13 @@ public class mapper {
 				lblXcoord.setText("x: " + xScaled);
 				lblYcoord.setText("y: " + yScaled);
 
-				if(!getColor) {
+				if(!getColor && imageUploaded) {
 					int color = bufferedOriginal.getRGB(xScaled, yScaled);
 					pixels.add(new Pixel((color & 0x00ff0000) >> 16,(color & 0x0000ff00) >> 8,color & 0x000000ff,xScaled,yScaled));
+					btnPointList.setText("Points (" + Pixel.getPixelCounter() + ")");
 				}
 				
-				if(getColor) {
+				if(getColor && imageUploaded) {
 					int xImage = (int)((xPosition*1.0/lbimage.getWidth())*bufferedOriginal.getWidth());
 					int yImage = (int)((yPosition*1.0/lbimage.getHeight())*bufferedOriginal.getHeight());
 			        int clr = bufferedOriginal.getRGB(xImage, yImage);
@@ -173,30 +182,46 @@ public class mapper {
 			        spin_Green.setValue(newGreen);
 			        spin_Blue.setValue(newBlue);
 					
-					lbimage.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-					btDropplet.setForeground(SystemColor.BLACK);
-			        btDropplet.getModel().setPressed(false);
-					getColor = false;
+			        if (!altSelect) {
+						lbimage.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+						btDropplet.setForeground(SystemColor.BLACK);
+				        btDropplet.getModel().setPressed(false);
+						getColor = false;
+			        }
 				}
 				
 				updateCoords = false;
 			}
-
+			
+			
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				updateCoords = true;
+				inPanel = true;
 				if (getColor) {
 					lbimage.setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
+				}
+				if (altSelect) {
+					lbimage.setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
+					btDropplet.setForeground(SystemColor.controlHighlight);
+					btDropplet.getModel().setPressed(true);
+					getColor = true;
 				}
 			}
 			
 			@Override
 			public void mouseExited(MouseEvent e) {
 				updateCoords = false;
+				inPanel = false;
 				lbimage.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+				if (altSelect) {
+					btDropplet.setForeground(SystemColor.BLACK);
+			        btDropplet.getModel().setPressed(false);
+					getColor = false;
+				}
 			}
-			
 
+			
 		});
 
 		lbimage.addMouseMotionListener(new MouseAdapter() {
@@ -216,7 +241,7 @@ public class mapper {
 			}
 		});
 
-		JPanel panel = new JPanel();
+		panel = new JPanel();
 		springLayout.putConstraint(SpringLayout.NORTH, panel, 6, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, panel, 6, SpringLayout.WEST, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, panel,
@@ -241,7 +266,7 @@ public class mapper {
 				if (getColor) {
 					lbimage.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 					btDropplet.setForeground(SystemColor.BLACK);
-					btDropplet.getModel().setArmed(false);
+					btDropplet.getModel().setPressed(false);
 					getColor = false;
 				} else {
 					btDropplet.setForeground(SystemColor.controlHighlight);
@@ -274,13 +299,16 @@ public class mapper {
 					Image resized = getScaledImage(original, lbimage.getWidth(), lbimage.getHeight());
 					lbimage.setIcon(new ImageIcon(resized));
 					btDropplet.getModel().setEnabled(true);
+					imageUploaded = true;
 					try {
 						bufferedOriginal = ImageIO.read(selectedFile);
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
 				}
+				frame.requestFocus();
 			}
+			
 		});
 		frame.getContentPane().add(btnUpload);
 
@@ -291,16 +319,23 @@ public class mapper {
 		springLayout.putConstraint(SpringLayout.EAST, btnSettings, 241, SpringLayout.WEST, frame.getContentPane());
 		btnSettings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				frame.requestFocus();
 			}
 		});
 		frame.getContentPane().add(btnSettings);
 
-		JButton btnPointList = new JButton("Points (" + Pixel.getPixelCounter() + ")");
+		btnPointList = new JButton("Points (" + Pixel.getPixelCounter() + ")");
 		springLayout.putConstraint(SpringLayout.NORTH, btnPointList, -37, SpringLayout.SOUTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, btnPointList, -106, SpringLayout.EAST, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, btnPointList, -5, SpringLayout.SOUTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, btnPointList, 0, SpringLayout.EAST, frame.getContentPane());
 		frame.getContentPane().add(btnPointList);
+		btnPointList.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.requestFocus();
+			}
+		});
+		
 
 		panel_1 = new JPanel();
 		panel_1.setBackground(Color.BLACK);
@@ -453,6 +488,32 @@ public class mapper {
 			}
 		});
 		
+		frame.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ALT || e.getKeyCode() == KeyEvent.VK_ALT_GRAPH) {
+					altSelect = true;
+				}
+
+				if ((e.getKeyCode() == KeyEvent.VK_ALT || e.getKeyCode() == KeyEvent.VK_ALT_GRAPH) && inPanel && imageUploaded) {
+					lbimage.setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
+					btDropplet.setForeground(SystemColor.controlHighlight);
+					btDropplet.getModel().setPressed(true);
+					getColor = true;
+				}
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_ALT || e.getKeyCode() == KeyEvent.VK_ALT_GRAPH) {
+					altSelect = false;
+					lbimage.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+					btDropplet.setForeground(SystemColor.BLACK);
+			        btDropplet.getModel().setPressed(false);
+					getColor = false;
+				}
+			}
+		});
 		
 
 	}
