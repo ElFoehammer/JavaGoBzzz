@@ -1,7 +1,47 @@
 package Mapper;
 
 public class Pixel {
-	
+
+	public static int getGroupCounter() {
+		return GroupCounter;
+	}
+
+	public int getPixelNumber() {
+		return pixelNumber;
+	}
+
+	public String getNickName() {
+		return nickName;
+	}
+
+	public int getGrp() {
+		return grp;
+	}
+
+	public int getR() {
+		return r;
+	}
+
+	public int getG() {
+		return g;
+	}
+
+	public int getB() {
+		return b;
+	}
+
+	public int getT() {
+		return t;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
 	private static int PixelCounter = 0;
 	private static int GroupCounter = 0;
 	private int pixelNumber;
@@ -13,9 +53,9 @@ public class Pixel {
 	private int t;
 	private int x;
 	private int y;
-	
-public Pixel(String nickName, int grp, int r, int g, int b, int t, int x, int y) {
-		
+
+	public Pixel(String nickName, int grp, int r, int g, int b, int t, int x, int y) {
+
 		PixelCounter++;
 		this.pixelNumber = PixelCounter;
 		this.nickName = nickName;
@@ -26,11 +66,11 @@ public Pixel(String nickName, int grp, int r, int g, int b, int t, int x, int y)
 		this.t = t;
 		this.x = x;
 		this.y = y;
-		
+
 	}
-	
+
 	public Pixel(String nickName, int grp, int r, int g, int b, int x, int y) {
-		
+
 		PixelCounter++;
 		this.pixelNumber = PixelCounter;
 		this.nickName = nickName;
@@ -41,11 +81,11 @@ public Pixel(String nickName, int grp, int r, int g, int b, int t, int x, int y)
 		this.t = 0;
 		this.x = x;
 		this.y = y;
-		
+
 	}
-	
+
 	public Pixel(int grp, int r, int g, int b, int t, int x, int y) {
-		
+
 		PixelCounter++;
 		this.pixelNumber = PixelCounter;
 		this.nickName = "Pixel " + PixelCounter;
@@ -56,27 +96,26 @@ public Pixel(String nickName, int grp, int r, int g, int b, int t, int x, int y)
 		this.t = t;
 		this.x = x;
 		this.y = y;
-		
+
 	}
-	
-	
+
 	public Pixel(int r, int g, int b, int t, int x, int y) {
-			
-			PixelCounter++;
-			this.pixelNumber = PixelCounter;
-			this.nickName = "Pixel " + PixelCounter;
-			this.grp = -1;
-			this.r = r;
-			this.g = g;
-			this.b = b;
-			this.t = t;
-			this.x = x;
-			this.y = y;
-			
-		}
-	
+
+		PixelCounter++;
+		this.pixelNumber = PixelCounter;
+		this.nickName = "Pixel " + PixelCounter;
+		this.grp = -1;
+		this.r = r;
+		this.g = g;
+		this.b = b;
+		this.t = t;
+		this.x = x;
+		this.y = y;
+
+	}
+
 	public Pixel(int r, int g, int b, int x, int y) {
-		
+
 		PixelCounter++;
 		this.pixelNumber = PixelCounter;
 		this.nickName = "Pixel " + PixelCounter;
@@ -87,9 +126,9 @@ public Pixel(String nickName, int grp, int r, int g, int b, int t, int x, int y)
 		this.t = 0;
 		this.x = x;
 		this.y = y;
-		
+
 	}
-	
+
 	public static int getPixelCounter() {
 		return PixelCounter;
 	}
