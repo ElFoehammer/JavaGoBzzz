@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5bf2d5fb-d00b-44bf-9b91-f0b1b273ad01" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/JavaGoBzzz.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Mapper/mapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Mapper/mapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Mapper/points.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Mapper/points.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,12 +15,17 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="1fQ7i4jodf4OnrDrmQuFVUC6Bk5" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/Mapper/Pixel.java" />
+    <property name="settings.editor.selected.configurable" value="terminal" />
   </component>
   <component name="RunManager">
     <configuration name="mapper" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -55,5 +59,55 @@
       <updated>1596138586899</updated>
     </task>
     <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="740" y="274" key="FileChooserDialogImpl" timestamp="1596145077273">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="740" y="274" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1596145077273" />
+    <state width="1877" height="162" key="GridCell.Tab.0.bottom" timestamp="1596148416976">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="162" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1596148416976" />
+    <state width="1877" height="162" key="GridCell.Tab.0.center" timestamp="1596148416976">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="162" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1596148416976" />
+    <state width="1877" height="162" key="GridCell.Tab.0.left" timestamp="1596148416976">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="162" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1596148416976" />
+    <state width="1877" height="162" key="GridCell.Tab.0.right" timestamp="1596148416976">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="162" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1596148416976" />
+    <state width="1877" height="123" key="GridCell.Tab.1.bottom" timestamp="1596146281847">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="123" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1596146281847" />
+    <state width="1877" height="123" key="GridCell.Tab.1.center" timestamp="1596146281847">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="123" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1596146281847" />
+    <state width="1877" height="123" key="GridCell.Tab.1.left" timestamp="1596146281847">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="123" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1596146281847" />
+    <state width="1877" height="123" key="GridCell.Tab.1.right" timestamp="1596146281847">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="123" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1596146281847" />
+    <state x="461" y="164" key="SettingsEditor" timestamp="1596147606990">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="461" y="164" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1596147606990" />
+    <state width="498" height="398" key="SwitcherDM" timestamp="1596139064370">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="498" height="398" key="SwitcherDM/0.0.1920.1040@0.0.1920.1040" timestamp="1596139064370" />
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup" timestamp="1596147612419">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="623" y="225" width="672" height="678" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1596147612419" />
   </component>
 </project>

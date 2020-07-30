@@ -36,7 +36,7 @@ public class points {
 			 */
 
 			private static final long serialVersionUID = 1L;
-			boolean[] columnEditables = new boolean[] { false, true, true, true, true, true, true };
+			boolean[] columnEditables = new boolean[] { false, true, true, true, true, true, true, true};
 
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
