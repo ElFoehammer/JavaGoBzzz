@@ -10,6 +10,9 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -695,8 +698,10 @@ public class mapper {
 
     public void export() throws IOException {
 		File file = null;
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH.mm.ss");
+        String filename = "Map " + LocalDateTime.now().format(format);
 		try {
-			file = new File(FileSystemView.getFileSystemView().getHomeDirectory() + "/" + System.nanoTime() + ".txt");
+			file = new File(FileSystemView.getFileSystemView().getHomeDirectory() + "/" + filename + ".txt");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
