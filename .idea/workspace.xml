@@ -19,23 +19,11 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5bf2d5fb-d00b-44bf-9b91-f0b1b273ad01" name="Default Changelist" comment="export">
+    <list default="true" id="5bf2d5fb-d00b-44bf-9b91-f0b1b273ad01" name="Default Changelist" comment="Filename format">
+      <change afterPath="$PROJECT_DIR$/.idea/discord.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Mapper/mapper$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Mapper/mapper$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Mapper/mapper$11.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Mapper/mapper$11.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Mapper/mapper$12.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Mapper/mapper$12.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Mapper/mapper$13.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Mapper/mapper$13.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Mapper/mapper$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Mapper/mapper$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Mapper/mapper$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Mapper/mapper$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Mapper/mapper$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Mapper/mapper$4.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Mapper/mapper$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Mapper/mapper$5.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Mapper/mapper$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Mapper/mapper$6.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Mapper/mapper$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Mapper/mapper$7.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Mapper/mapper$8.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Mapper/mapper$8.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Mapper/mapper$9.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Mapper/mapper$9.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Mapper/mapper.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Mapper/mapper.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Mapper/points$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Mapper/points$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Mapper/mapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Mapper/mapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Mapper/points.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Mapper/points.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,7 +43,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/Mapper/Pixel.java" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../MapReader" />
     <property name="settings.editor.selected.configurable" value="terminal" />
   </component>
   <component name="RunManager">
@@ -96,7 +84,14 @@
       <option name="project" value="LOCAL" />
       <updated>1596149408986</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Filename format">
+      <created>1596153034972</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1596153034972</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -113,29 +108,30 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="export" />
-    <option name="LAST_COMMIT_MESSAGE" value="export" />
+    <MESSAGE value="Filename format" />
+    <option name="LAST_COMMIT_MESSAGE" value="Filename format" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="740" y="274" key="FileChooserDialogImpl" timestamp="1596152369890">
+    <state x="740" y="274" key="FileChooserDialogImpl" timestamp="1596337918983">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="740" y="274" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1596152369890" />
-    <state width="1877" height="162" key="GridCell.Tab.0.bottom" timestamp="1596152980354">
+    <state x="740" y="274" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1596337918983" />
+    <state width="1877" height="162" key="GridCell.Tab.0.bottom" timestamp="1596338204360">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="162" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1596152980354" />
-    <state width="1877" height="162" key="GridCell.Tab.0.center" timestamp="1596152980354">
+    <state width="1877" height="162" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1596338204360" />
+    <state width="1877" height="162" key="GridCell.Tab.0.center" timestamp="1596338204360">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="162" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1596152980354" />
-    <state width="1877" height="162" key="GridCell.Tab.0.left" timestamp="1596152980354">
+    <state width="1877" height="162" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1596338204360" />
+    <state width="1877" height="162" key="GridCell.Tab.0.left" timestamp="1596338204360">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="162" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1596152980354" />
-    <state width="1877" height="162" key="GridCell.Tab.0.right" timestamp="1596152980354">
+    <state width="1877" height="162" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1596338204360" />
+    <state width="1877" height="162" key="GridCell.Tab.0.right" timestamp="1596338204360">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="162" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1596152980354" />
+    <state width="1877" height="162" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1596338204360" />
     <state width="1877" height="123" key="GridCell.Tab.1.bottom" timestamp="1596150162423">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

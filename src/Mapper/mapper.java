@@ -151,6 +151,7 @@ public class mapper {
         }
 
         frame = new JFrame();
+        frame.setTitle("Mapper");
         frame.setBounds(100, 100, 563, (int) (563 * ((screenHeight / screenWidth))));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         SpringLayout springLayout = new SpringLayout();

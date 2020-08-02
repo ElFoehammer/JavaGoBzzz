@@ -90,9 +90,10 @@ public class points {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.setTitle("Points");
 		frame.getContentPane().setEnabled(false);
 		frame.setResizable(true);
-		frame.setBounds(mapper.getWindow().getFrame().getX() + mapper.getWindow().getFrame().getWidth(), 100, 380, 480);
+		frame.setBounds(mapper.getWindow().getFrame().getX() + mapper.getWindow().getFrame().getWidth(), mapper.getWindow().getFrame().getY(), 380, 480);
 		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		SpringLayout springLayout = new SpringLayout();
 		frame.getContentPane().setLayout(springLayout);
