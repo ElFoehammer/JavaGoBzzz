@@ -4,7 +4,9 @@ import java.awt.EventQueue;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.MouseInfo;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.Robot;
 import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
@@ -39,6 +41,8 @@ import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+
+import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.SystemColor;
@@ -88,6 +92,8 @@ public class mapper {
 	private JButton btnPointList;
 	private JTextField textHexClr;
 	private JPanel panel;
+	private JButton btnSnapShot;
+	private BufferedImage screenFullImage;
 
 	/**
 	 * Launch the application.
@@ -415,6 +421,48 @@ public class mapper {
 		springLayout.putConstraint(SpringLayout.EAST, spin_Blue, -10, SpringLayout.EAST, frame.getContentPane());
 		frame.getContentPane().add(spin_Blue);
 		spin_Blue.setModel(new SpinnerNumberModel(0, 0, 255, 1));
+		
+		btnSnapShot = new JButton("");
+		springLayout.putConstraint(SpringLayout.SOUTH, btnSnapShot, 25, SpringLayout.NORTH, panel);
+		springLayout.putConstraint(SpringLayout.EAST, btnSnapShot, 25, SpringLayout.EAST, panel);
+		btnSnapShot.setFont(new Font("Lucida Grande", Font.PLAIN, 5));
+		springLayout.putConstraint(SpringLayout.NORTH, btnSnapShot, 0, SpringLayout.NORTH, panel);
+		springLayout.putConstraint(SpringLayout.WEST, btnSnapShot, 0, SpringLayout.EAST, panel);
+		frame.getContentPane().add(btnSnapShot);
+				
+		try {
+			Image img = ImageIO.read(getClass().getResource("images/cam.jpg"));
+			Image resized = getScaledImage(img, 15, 15);
+			btnSnapShot.setIcon(new ImageIcon(resized));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		btnSnapShot.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
+				try {
+					Robot robot = new Robot();
+					screenFullImage = robot.createScreenCapture(screenRect);
+				} catch (AWTException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+				
+				ImageIcon source = new ImageIcon(screenFullImage);
+				original = source.getImage();
+				Image resized = getScaledImage(original, lbimage.getWidth(), lbimage.getHeight());
+				lbimage.setIcon(new ImageIcon(resized));
+				btDropplet.getModel().setEnabled(true);
+				imageUploaded = true;
+				bufferedOriginal = screenFullImage;
+				
+			}
+
+		});
+		
+		
 		spin_Blue.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				red = (int) spin_Red.getValue();
