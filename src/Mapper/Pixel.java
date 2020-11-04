@@ -2,8 +2,6 @@ package Mapper;
 
 public class Pixel {
 
-	
-
 	private static int PixelCounter = 0;
 	private static int GroupCounter = 0;
 	private int pixelNumber;
@@ -91,8 +89,44 @@ public class Pixel {
 
 	}
 
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+
+	public void setGrp(int grp) {
+		this.grp = grp;
+	}
+
+	public void setR(int r) {
+		this.r = r;
+	}
+
+	public void setG(int g) {
+		this.g = g;
+	}
+
+	public void setB(int b) {
+		this.b = b;
+	}
+
+	public void setT(int t) {
+		this.t = t;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
 	public static int getPixelCounter() {
 		return PixelCounter;
+	}
+	
+	public static void setPixelCounter(int pixelCounter) {
+		PixelCounter = pixelCounter;
 	}
 	
 	public static int getGroupCounter() {
@@ -101,6 +135,10 @@ public class Pixel {
 
 	public int getPixelNumber() {
 		return pixelNumber;
+	}
+
+	public void setPixelNumber(int pixelNumber) {
+		this.pixelNumber = pixelNumber;
 	}
 
 	public String getNickName() {

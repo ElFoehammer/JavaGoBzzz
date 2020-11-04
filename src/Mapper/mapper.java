@@ -4,7 +4,9 @@ import java.awt.EventQueue;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.MouseInfo;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.Robot;
 import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +23,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -33,7 +34,6 @@ import java.awt.Dimension;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 import javax.swing.JSpinner;
@@ -41,10 +41,10 @@ import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+
+import java.awt.AWTException;
 import java.awt.BorderLayout;
-import java.awt.Panel;
 import java.awt.Font;
-import Mapper.Pixel;
 import java.awt.SystemColor;
 
 public class mapper {
@@ -58,7 +58,12 @@ public class mapper {
 	private int scaledDownWidth = 400;
 	private int scaledDownHeight = 225;
 	private int bootcount = 0;
-	private long sleepTime = 2000;
+	private int xCoordScaled;
+	private int yCoordScaled;
+	private int xCoord;
+	private int yCoord;
+	private int xImage;
+	private int yImage;
 	private Image original;
 	private BufferedImage bufferedOriginal;
 	private boolean updateCoords = false;
@@ -71,21 +76,24 @@ public class mapper {
 	private JSpinner spin_Red;
 	private JSpinner spin_Green;
 	private JSpinner spin_Blue;
+	private JSpinner spin_Tresh;
 	private int red;
 	private int green;
 	private int blue;
+	private String hexColor = "#000000";
 	private Color c;
 	private JPanel panel_1;
-	private int xPosition;
-	private int yPosition;
 	private File selectedFile;
 	private ArrayList<Pixel> pixels = new ArrayList<>();
 	private boolean getColor = false;
 	private boolean setPixel = false;
+	private boolean pointsExists = false;
 	private JButton btDropplet;
 	private JButton btnPointList;
 	private JTextField textHexClr;
 	private JPanel panel;
+	private JButton btnSnapShot;
+	private BufferedImage screenFullImage;
 
 	/**
 	 * Launch the application.
@@ -103,15 +111,19 @@ public class mapper {
 		});
 	}
 
-	public static mapper getWindow(){
+	public void updateBtnPointList() {
+		btnPointList.setText("Points (" + pixels.size() + ")");
+	}
+
+	public static mapper getWindow() {
 		return window;
 	}
 
-	public JFrame getFrame(){
+	public JFrame getFrame() {
 		return this.frame;
 	}
 
-	public ArrayList<Pixel> getPixels(){
+	public ArrayList<Pixel> getPixels() {
 		return this.pixels;
 	}
 
@@ -169,98 +181,6 @@ public class mapper {
 				SpringLayout.EAST, frame.getContentPane());
 		lbimage.setBackground(Color.WHITE);
 		frame.getContentPane().add(lbimage);
-
-		lbimage.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				xPosition = MouseInfo.getPointerInfo().getLocation().x - lbimage.getLocationOnScreen().x;
-				int xScaled = (xPosition * screenWidth) / lbimage.getWidth();
-				yPosition = MouseInfo.getPointerInfo().getLocation().y - lbimage.getLocationOnScreen().y;
-				int yScaled = (yPosition * screenHeight) / lbimage.getHeight();
-				lblXcoord.setText("x: " + xScaled);
-				lblYcoord.setText("y: " + yScaled);
-
-				if (setPixel && imageUploaded) {
-					
-					pixels.add(new Pixel((int)spin_Red.getValue(), (int)spin_Green.getValue(), (int)spin_Blue.getValue(),
-							xScaled, yScaled));
-					btnPointList.setText("Points (" + Pixel.getPixelCounter() + ")");
-					updateCoords = true;
-				}
-
-				if (getColor && imageUploaded) {
-					int xImage = (int) ((xPosition * 1.0 / lbimage.getWidth()) * bufferedOriginal.getWidth());
-					int yImage = (int) ((yPosition * 1.0 / lbimage.getHeight()) * bufferedOriginal.getHeight());
-					int clr = bufferedOriginal.getRGB(xImage, yImage);
-					int newRed = (clr & 0x00ff0000) >> 16;
-					int newGreen = (clr & 0x0000ff00) >> 8;
-					int newBlue = clr & 0x000000ff;
-					spin_Red.setValue(newRed);
-					spin_Green.setValue(newGreen);
-					spin_Blue.setValue(newBlue);
-					updateCoords = true;
-				}
-				
-				if (!getColor && !setPixel) {
-					updateCoords = false;
-				}
-
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				updateCoords = true;
-				inPanel = true;
-				if (getColor) {
-					lbimage.setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
-				}
-				if (altSelect) {
-					lbimage.setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
-					btDropplet.setForeground(SystemColor.controlHighlight);
-					btDropplet.getModel().setPressed(true);
-					getColor = true;
-				}
-				
-				if (ctrlSelect) {
-					lbimage.setCursor(new Cursor(Cursor.HAND_CURSOR));
-					setPixel = true;
-				}
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				updateCoords = false;
-				inPanel = false;
-				lbimage.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-				if (altSelect) {
-					btDropplet.setForeground(SystemColor.BLACK);
-					btDropplet.getModel().setPressed(false);
-					getColor = false;
-				}
-				if (ctrlSelect) {
-					lbimage.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-					setPixel = false;
-				}
-			}
-
-		});
-
-		lbimage.addMouseMotionListener(new MouseAdapter() {
-			@Override
-			public void mouseMoved(MouseEvent e) {
-				int xCoord = MouseInfo.getPointerInfo().getLocation().x - lbimage.getLocationOnScreen().x;
-				int xCoordScaled = (xCoord * screenWidth) / lbimage.getWidth();
-				if (updateCoords) {
-					lblXcoord.setText("x: " + xCoordScaled);
-				}
-
-				int yCoord = MouseInfo.getPointerInfo().getLocation().y - lbimage.getLocationOnScreen().y;
-				int yCoordScaled = (yCoord * screenHeight) / lbimage.getHeight();
-				if (updateCoords) {
-					lblYcoord.setText("y: " + yCoordScaled);
-				}
-			}
-		});
 
 		panel = new JPanel();
 		springLayout.putConstraint(SpringLayout.NORTH, panel, 6, SpringLayout.NORTH, frame.getContentPane());
@@ -325,7 +245,6 @@ public class mapper {
 						e1.printStackTrace();
 					}
 				}
-				frame.requestFocus();
 			}
 
 		});
@@ -338,7 +257,6 @@ public class mapper {
 		springLayout.putConstraint(SpringLayout.EAST, btnSettings, 241, SpringLayout.WEST, frame.getContentPane());
 		btnSettings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frame.requestFocus();
 			}
 		});
 		frame.getContentPane().add(btnSettings);
@@ -351,8 +269,8 @@ public class mapper {
 		frame.getContentPane().add(btnPointList);
 		btnPointList.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				pointsExists = true;
 				points.launch();
-				frame.requestFocus();
 			}
 		});
 
@@ -381,21 +299,31 @@ public class mapper {
 				int newBlue = (int) spin_Blue.getValue();
 				Boolean isHex = false;
 
-				if (Sclr.length() == 7 && Sclr.charAt(0) == '#') {
-					clr = Sclr.substring(1, 7);
-				} else if (Sclr.length() == 6) {
-					clr = Sclr.substring(0, 6);
+				if ((textHexClr.getText().equals("BadFormat"))) {
+					red = (int) spin_Red.getValue();
+					green = (int) spin_Green.getValue();
+					blue = (int) spin_Blue.getValue();
+					c = new Color(red, green, blue);
+					panel_1.setBackground(c);
+					String hex = String.format("#%02x%02x%02x", red, green, blue);
+					textHexClr.setText(hex);
 				} else {
-					textHexClr.setText("BadFormat");
-				}
+					if (Sclr.length() == 7 && Sclr.charAt(0) == '#') {
+						clr = Sclr.substring(1, 7);
+					} else if (Sclr.length() == 6) {
+						clr = Sclr.substring(0, 6);
+					} else {
+						textHexClr.setText("BadFormat");
+					}
 
-				isHex = checkHex(clr);
-				if (isHex) {
-					newRed = Integer.parseInt(clr.substring(0, 2), 16);
-					newGreen = Integer.parseInt(clr.substring(2, 4), 16);
-					newBlue = Integer.parseInt(clr.substring(4, 6), 16);
-				} else {
-					textHexClr.setText("BadFormat");
+					isHex = checkHex(clr);
+					if (isHex) {
+						newRed = Integer.parseInt(clr.substring(0, 2), 16);
+						newGreen = Integer.parseInt(clr.substring(2, 4), 16);
+						newBlue = Integer.parseInt(clr.substring(4, 6), 16);
+					} else {
+						textHexClr.setText("BadFormat");
+					}
 				}
 
 				spin_Red.setValue(newRed);
@@ -435,7 +363,7 @@ public class mapper {
 		springLayout.putConstraint(SpringLayout.EAST, lblYcoord, 156, SpringLayout.WEST, frame.getContentPane());
 		frame.getContentPane().add(lblYcoord);
 
-		JSpinner spin_Tresh = new JSpinner();
+		spin_Tresh = new JSpinner();
 		springLayout.putConstraint(SpringLayout.NORTH, spin_Tresh, 2, SpringLayout.SOUTH, panel);
 		springLayout.putConstraint(SpringLayout.WEST, spin_Tresh, -65, SpringLayout.EAST, panel);
 		springLayout.putConstraint(SpringLayout.EAST, spin_Tresh, 0, SpringLayout.EAST, panel);
@@ -462,8 +390,8 @@ public class mapper {
 				blue = (int) spin_Blue.getValue();
 				c = new Color(red, green, blue);
 				panel_1.setBackground(c);
-				String hex = String.format("#%02x%02x%02x", red, green, blue);
-				textHexClr.setText(hex);
+				hexColor = String.format("#%02x%02x%02x", red, green, blue);
+				textHexClr.setText(hexColor);
 			}
 		});
 
@@ -493,6 +421,48 @@ public class mapper {
 		springLayout.putConstraint(SpringLayout.EAST, spin_Blue, -10, SpringLayout.EAST, frame.getContentPane());
 		frame.getContentPane().add(spin_Blue);
 		spin_Blue.setModel(new SpinnerNumberModel(0, 0, 255, 1));
+		
+		btnSnapShot = new JButton("");
+		springLayout.putConstraint(SpringLayout.SOUTH, btnSnapShot, 25, SpringLayout.NORTH, panel);
+		springLayout.putConstraint(SpringLayout.EAST, btnSnapShot, 25, SpringLayout.EAST, panel);
+		btnSnapShot.setFont(new Font("Lucida Grande", Font.PLAIN, 5));
+		springLayout.putConstraint(SpringLayout.NORTH, btnSnapShot, 0, SpringLayout.NORTH, panel);
+		springLayout.putConstraint(SpringLayout.WEST, btnSnapShot, 0, SpringLayout.EAST, panel);
+		frame.getContentPane().add(btnSnapShot);
+				
+		try {
+			Image img = ImageIO.read(getClass().getResource("images/cam.jpg"));
+			Image resized = getScaledImage(img, 15, 15);
+			btnSnapShot.setIcon(new ImageIcon(resized));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		btnSnapShot.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
+				try {
+					Robot robot = new Robot();
+					screenFullImage = robot.createScreenCapture(screenRect);
+				} catch (AWTException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+				
+				ImageIcon source = new ImageIcon(screenFullImage);
+				original = source.getImage();
+				Image resized = getScaledImage(original, lbimage.getWidth(), lbimage.getHeight());
+				lbimage.setIcon(new ImageIcon(resized));
+				btDropplet.getModel().setEnabled(true);
+				imageUploaded = true;
+				bufferedOriginal = screenFullImage;
+				
+			}
+
+		});
+		
+		
 		spin_Blue.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
 				red = (int) spin_Red.getValue();
@@ -505,38 +475,190 @@ public class mapper {
 			}
 		});
 
-		frame.addKeyListener(new KeyAdapter() {
+		lbimage.addMouseListener(new MouseAdapter() {
 			@Override
-			public void keyPressed(KeyEvent e) {
-				if (imageUploaded && (e.getKeyCode() == KeyEvent.VK_ALT || e.getKeyCode() == KeyEvent.VK_ALT_GRAPH)) {
-					altSelect = true;
+			public void mouseClicked(MouseEvent e) {
+				int xScaled = xCoordScaled;
+				int yScaled = yCoordScaled;
+				lblXcoord.setText("x: " + xScaled);
+				lblYcoord.setText("y: " + yScaled);
+				updateCoords = false;
+
+				if (setPixel && imageUploaded) {
+
+					pixels.add(new Pixel((int) spin_Red.getValue(), (int) spin_Green.getValue(),
+							(int) spin_Blue.getValue(), (int) spin_Tresh.getValue(), xScaled, yScaled));
+					if (pointsExists)
+						points.update(points.getWindow().getTable());
+					btnPointList.setText("Points (" + Pixel.getPixelCounter() + ")");
 				}
 
-				if (inPanel && imageUploaded && (e.getKeyCode() == KeyEvent.VK_ALT || e.getKeyCode() == KeyEvent.VK_ALT_GRAPH)) {
+				if (getColor && imageUploaded) {
+					int clr = bufferedOriginal.getRGB(xImage, yImage);
+					int newRed = (clr & 0x00ff0000) >> 16;
+					int newGreen = (clr & 0x0000ff00) >> 8;
+					int newBlue = clr & 0x000000ff;
+					spin_Red.setValue(newRed);
+					spin_Green.setValue(newGreen);
+					spin_Blue.setValue(newBlue);
+					updateCoords = true;
+					if (!altSelect) {
+						lbimage.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+						btDropplet.setForeground(SystemColor.BLACK);
+						btDropplet.getModel().setPressed(false);
+						getColor = false;
+						updateCoords = false;
+					}
+				}
+
+				if (!getColor && !setPixel) {
+					updateCoords = false;
+				}
+
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				frame.requestFocus();
+				updateCoords = true;
+				inPanel = true;
+				if (getColor) {
+					lbimage.setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
+				}
+				if (altSelect) {
 					lbimage.setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
 					btDropplet.setForeground(SystemColor.controlHighlight);
 					btDropplet.getModel().setPressed(true);
 					getColor = true;
 				}
-				
-				if (inPanel && imageUploaded && (imageUploaded && e.getKeyCode() == KeyEvent.VK_CONTROL)) {
+
+				if (ctrlSelect) {
+					lbimage.setCursor(new Cursor(Cursor.HAND_CURSOR));
+					setPixel = true;
+				}
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				updateCoords = false;
+				inPanel = false;
+				lbimage.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+				if (altSelect) {
+					btDropplet.setForeground(SystemColor.BLACK);
+					btDropplet.getModel().setPressed(false);
+					getColor = false;
+				}
+				if (ctrlSelect) {
+					lbimage.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+					setPixel = false;
+				}
+			}
+
+		});
+
+		lbimage.addMouseMotionListener(new MouseAdapter() {
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				frame.requestFocus();
+				xCoord = MouseInfo.getPointerInfo().getLocation().x - lbimage.getLocationOnScreen().x;
+				if ((int) ((xCoord * 1.0 * screenWidth) / lbimage.getWidth()) >= 0
+						&& ((int) (xCoord * 1.0 * screenWidth) / lbimage.getWidth()) <= screenWidth) {
+					xCoordScaled = (int) (xCoord * 1.0 * screenWidth) / lbimage.getWidth();
+
+					if (updateCoords) {
+						lblXcoord.setText("x: " + xCoordScaled);
+					}
+				}
+
+				yCoord = MouseInfo.getPointerInfo().getLocation().y - lbimage.getLocationOnScreen().y;
+				if ((int) (yCoord * 1.0 * screenHeight) / lbimage.getHeight() >= 0
+						&& (int) (yCoord * 1.0 * screenHeight) / lbimage.getHeight() <= screenHeight) {
+					yCoordScaled = (int) (yCoord * 1.0 * screenHeight) / lbimage.getHeight();
+
+					if (updateCoords) {
+						lblYcoord.setText("y: " + yCoordScaled);
+					}
+				}
+				if (imageUploaded) {
+					if ((int) ((xCoord * 1.0 / lbimage.getWidth()) * bufferedOriginal.getWidth()) >= 0
+							&& (int) ((xCoord * 1.0 / lbimage.getWidth())
+									* bufferedOriginal.getWidth()) <= bufferedOriginal.getWidth()) {
+						xImage = (int) ((xCoord * 1.0 / lbimage.getWidth()) * bufferedOriginal.getWidth());
+
+					}
+
+					if ((int) ((yCoord * 1.0 / lbimage.getHeight()) * bufferedOriginal.getHeight()) >= 0
+							&& (int) ((yCoord * 1.0 / lbimage.getHeight())
+									* bufferedOriginal.getHeight()) <= bufferedOriginal.getWidth()) {
+						yImage = (int) ((yCoord * 1.0 / lbimage.getHeight()) * bufferedOriginal.getHeight());
+
+					}
+				}
+			}
+		});
+
+		frame.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (imageUploaded && (e.getKeyCode() == KeyEvent.VK_SHIFT)) {
+					altSelect = true;
+				}
+
+				if (inPanel && imageUploaded && (e.getKeyCode() == KeyEvent.VK_SHIFT)) {
+					lbimage.setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
+					btDropplet.setForeground(SystemColor.controlHighlight);
+					btDropplet.getModel().setPressed(true);
+					getColor = true;
+				}
+
+				if (inPanel && imageUploaded && e.getKeyCode() == KeyEvent.VK_CONTROL) {
 					lbimage.setCursor(new Cursor(Cursor.HAND_CURSOR));
 					ctrlSelect = true;
 					setPixel = true;
+				}
+
+				if (e.getKeyCode() == KeyEvent.VK_UP && (yCoordScaled > 0) && (yImage > 0)) {
+					updateCoords = true;
+					yCoordScaled--;
+					yImage--;
+					lblYcoord.setText("y: " + yCoordScaled);
+				}
+
+				if (e.getKeyCode() == KeyEvent.VK_DOWN && (yCoordScaled < screenHeight - 1)
+						&& (yImage < bufferedOriginal.getHeight() - 1)) {
+					updateCoords = true;
+					yCoordScaled++;
+					yImage++;
+					lblYcoord.setText("y: " + yCoordScaled);
+				}
+
+				if (e.getKeyCode() == KeyEvent.VK_RIGHT && (xCoordScaled < screenWidth - 1)
+						&& (xImage < bufferedOriginal.getWidth() - 1)) {
+					updateCoords = true;
+					xCoordScaled++;
+					xImage++;
+					lblXcoord.setText("x: " + xCoordScaled);
+				}
+
+				if (e.getKeyCode() == KeyEvent.VK_LEFT && (xCoordScaled > 0) && (xImage > 0)) {
+					updateCoords = true;
+					xCoordScaled--;
+					xImage--;
+					lblXcoord.setText("x: " + xCoordScaled);
 				}
 
 			}
 
 			@Override
 			public void keyReleased(KeyEvent e) {
-				if (e.getKeyCode() == KeyEvent.VK_ALT || e.getKeyCode() == KeyEvent.VK_ALT_GRAPH) {
+				if (e.getKeyCode() == KeyEvent.VK_SHIFT) {
 					altSelect = false;
 					lbimage.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 					btDropplet.setForeground(SystemColor.BLACK);
 					btDropplet.getModel().setPressed(false);
 					getColor = false;
 				}
-				
+
 				if (e.getKeyCode() == KeyEvent.VK_CONTROL) {
 					lbimage.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 					ctrlSelect = false;
@@ -599,6 +721,18 @@ public class mapper {
 			}
 		}
 		return true;
+	}
+
+	public int getScreenWidth() {
+		return screenWidth;
+	}
+
+	public int getScreenHeight() {
+		return screenHeight;
+	}
+
+	public JButton getBtnPointList() {
+		return btnPointList;
 	}
 
 	private Image getScaledImage(Image srcImg, int w, int h) {
